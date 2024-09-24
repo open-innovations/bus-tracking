@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+gtfs-realtime-bindings = "*"
+jupyter = "*"
+notebook = "*"
+ipykernel = "*"
+protobuf-to-dict = "*"
+protobuf = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
