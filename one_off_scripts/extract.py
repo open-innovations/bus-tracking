@@ -1,8 +1,8 @@
 import os
 import zipfile
 
-zip_dir = "19SepGB_BusLocations_GTFSRT"
-extract_dir = "extracted_19SepGB_BusLocations_GTFSRT"
+zip_dir = "18SepGB_GTFS_Timetables_Downloaded"
+extract_dir = "extracted_18SepGB_BusLocations_GTFSRT"
 
 os.makedirs(extract_dir, exist_ok=True)
 
@@ -15,6 +15,7 @@ if __name__ == "__main__":
             zip_path = os.path.join(zip_dir, zip_filename)
 
             # Open the ZIP file
+            # print(zip_path)
             with zipfile.ZipFile(zip_path, 'r') as zip_file:
                 # Check if 'gtfsrt.bin' exists in the ZIP file
                 if 'gtfsrt.bin' in zip_file.namelist():

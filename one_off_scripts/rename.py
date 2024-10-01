@@ -1,6 +1,6 @@
 import os
 
-directory_path = '19SepGB_BusLocations_GTFSRT'
+directory_path = '18SepGB_BusLocations_GTFSRT'
 
 if __name__ == "__main__":
     for filename in os.listdir(directory_path):
