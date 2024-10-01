@@ -2,3 +2,4 @@ _site
 _cache
 .DS_Store
 src
+*.txt
