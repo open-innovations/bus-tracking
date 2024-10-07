@@ -5,6 +5,8 @@ import os
 import time
 import numpy as np
 
+ROOT = Path("../")
+ROOT.resolve()
 class BusDetail:
     def __init__(self) -> None:
         pass
@@ -96,43 +98,30 @@ def load_gtfs_ids(gtfs_path):
     
     return agencies, routes, stops, stop_times, trips
 
-def load_full_gtfs(dir):
-    files_in_path = os.listdir(dir)
-    required_files = ['agency.txt', 'routes.txt', 'trips.txt', 'stops.txt', 'stop_times.txt', 'calendar.txt' 'calendar_dates.txt']
+def load_full_gtfs(dir, include=None):
+    """
+    Read an unzipped GTFS file and get the required components. Additionally, read any optional files specified in `include`.
+    """
+    # Required by GTFS
+    required_files = ['agency.txt', 'routes.txt', 'trips.txt', 'stops.txt', 'stop_times.txt', 'calendar.txt', 'calendar_dates.txt']
+
+    # Add extra files to read
+    if include:
+        for file in include:
+            required_files.append(file)
+
+    result = [] 
+    # Read the files
     for file in required_files:
-        assert file in files_in_path, f"The file {file} is required but is not present in the folder directory {dir}"
         fp = os.path.join(dir, file)
         data = pd.read_csv(fp, low_memory=False)
-        if file == 'agency.txt':
-            agencies = data
-        if file == 'stops.txt':
-            stops = data
-        if file == 'stop_times.txt':
-            stop_times = data
-        if file == 'trips.txt':
-            trips = data
-        if file == 'calendar.txt':
-            calendar = data
-        if file == 'calendar_dates.txt':
-            calendar_dates = data
-        if file == 'routes.txt':
-            routes = data
-    
-    result = [agencies, routes, trips, stops, stop_times, calendar, calendar_dates]
-
-    if len(files_in_path) > len(required_files):
-        print('Loading additional non-required files.')
-        for file in files_in_path and file not in required_files:
-            if file == 'feed_info.txt':
-                feed_info = data
-                result.append(feed_info)
-            if file == 'frequencies.txt':
-                frequencies = data
-                result.append(frequencies)
-            if file == 'shapes.txt':
-                shapes = data
-                result.append(shapes)
+        result.append(data)
     
     return result
-        
-    
+
+def get_stop_names_and_bearings():
+    """"""
+    stop_names_bearings = pd.read_csv(ROOT / "uk_stops/stops.csv", low_memory=False, usecols=['ATCOCode', 'CommonName', 'Bearing'])
+    stop_names_bearings.rename(columns={"ATCOCode": "stop_id", "CommonName": "stop_name"}, inplace=True)
+    stop_names_bearings['Bearing'] = stop_names_bearings['Bearing'].map(pd.Series({"N": 0, "NE": 45, "E": 90, "SE": 135, "S": 180, "SW": 225, "W": 270, "NW": 315}))
+    return stop_names_bearings
