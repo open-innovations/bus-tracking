@@ -4,6 +4,7 @@ import zipfile
 import os
 import time
 import numpy as np
+import geopandas as gpd
 
 ROOT = Path("../")
 ROOT.resolve()
@@ -134,7 +135,7 @@ def get_stop_names_and_bearings():
     stop_names_bearings: pandas.DataFrame
         DataFrame with columns for stop_id, stop_name and Bearing
     """
-    stop_names_bearings = pd.read_csv(ROOT / "uk_stops/stops.csv", low_memory=False, usecols=['ATCOCode', 'CommonName', 'Bearing'])
+    stop_names_bearings = pd.read_csv(ROOT / "data/uk_stops/stops.csv", low_memory=False, usecols=['ATCOCode', 'CommonName', 'Bearing'])
     stop_names_bearings.rename(columns={"ATCOCode": "stop_id", "CommonName": "stop_name"}, inplace=True)
     stop_names_bearings['Bearing'] = stop_names_bearings['Bearing'].map(pd.Series({"N": 0, "NE": 45, "E": 90, "SE": 135, "S": 180, "SW": 225, "W": 270, "NW": 315}))
     return stop_names_bearings
@@ -170,3 +171,19 @@ def convert_to_unix_timestamp(df, time_column, date_str, time_format='%Y-%m-%d %
 
     # Convert the datetime objects to Unix timestamps (in seconds)
     return df[time_column].astype('int') / 10**9
+
+
+from shapely.geometry import GeometryCollection
+
+def intersect_geojson_files(file_list):
+    # Load the first GeoJSON file as a GeoDataFrame
+    gdf = gpd.read_file(file_list[0])
+
+    # Loop over the remaining files and compute the intersection
+    for file in file_list[1:]:
+        gdf_other = gpd.read_file(file)
+        gdf = gpd.overlay(gdf, gdf_other, how='intersection', keep_geom_type=False)
+    # Filter out GeometryCollection if they are present
+    gdf = gdf[~gdf.geometry.apply(lambda geom: isinstance(geom, GeometryCollection))]
+
+    return gdf
