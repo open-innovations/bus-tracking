@@ -1,8 +1,8 @@
 import os
 import zipfile
 
-zip_dir = "18SepGB_GTFS_Timetables_Downloaded"
-extract_dir = "extracted_18SepGB_BusLocations_GTFSRT"
+zip_dir = "15SepGB_BusLocations_GTFSRT"
+extract_dir = "data/gtfs-rt/extracted_15SepGB_BusLocations_GTFSRT"
 
 os.makedirs(extract_dir, exist_ok=True)
 
@@ -13,21 +13,21 @@ if __name__ == "__main__":
         if zip_filename.endswith('.zip'):
             # Construct full path to the ZIP file
             zip_path = os.path.join(zip_dir, zip_filename)
+            try:
+                with zipfile.ZipFile(zip_path, 'r') as zip_file:
+                    # Check if 'gtfsrt.bin' exists in the ZIP file
+                    if 'gtfsrt.bin' in zip_file.namelist():
+                        # Extract the 'gtfsrt.bin' file
+                        with zip_file.open('gtfsrt.bin') as bin_file:
+                            # Construct the output file name based on the ZIP file's name
+                            output_filename = os.path.join(extract_dir, zip_filename.replace('.zip', '.bin'))
 
-            # Open the ZIP file
-            # print(zip_path)
-            with zipfile.ZipFile(zip_path, 'r') as zip_file:
-                # Check if 'gtfsrt.bin' exists in the ZIP file
-                if 'gtfsrt.bin' in zip_file.namelist():
-                    # Extract the 'gtfsrt.bin' file
-                    with zip_file.open('gtfsrt.bin') as bin_file:
-                        # Construct the output file name based on the ZIP file's name
-                        output_filename = os.path.join(extract_dir, zip_filename.replace('.zip', '.bin'))
+                            # Write the extracted file to the output directory
+                            with open(output_filename, 'wb') as output_file:
+                                output_file.write(bin_file.read())
 
-                        # Write the extracted file to the output directory
-                        with open(output_filename, 'wb') as output_file:
-                            output_file.write(bin_file.read())
-
-                    print(f"Extracted {zip_filename} to {output_filename}")
-                else:
-                    print(f"'gtfsrt.bin' not found in {zip_filename}")
+                        print(f"Extracted {zip_filename} to {output_filename}")
+                    else:
+                        print(f"'gtfsrt.bin' not found in {zip_filename}")
+            except (zipfile.BadZipFile, zipfile.LargeZipFile) as e:
+                print(f"Skipping bad zip file: {zip_path} - {e}")
