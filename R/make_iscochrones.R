@@ -14,12 +14,12 @@ library(ggplot2)
 # print(list.files(data_path))
 
 # # Indicate the path where OSM and GTFS data are stored
-r5r_core <- setup_r5(data_path = "/Users/lukestrange/Code/bus-tracking/R/timetable")
+r5r_core <- setup_r5(data_path = "/Users/lukestrange/Code/bus-tracking/R/yorkshire/real")
 
 origin <- data.frame(id='origin1', lon=-1.54702, lat=53.79955)
 
 departure_datetime <- as.POSIXct(
-  "19-09-2024 09:00:00",
+  "15-09-2024 17:00:00",
   format = "%d-%m-%Y %H:%M:%S"
 )
 
@@ -31,13 +31,9 @@ iso1 <- isochrone(r5r_core,
                   departure_datetime = departure_datetime, 
                   cutoffs = c(0, 2700))
 
-head(iso1)
-q
 colour <- c('#ffe0a5', '#003f5c')
 
-# plot(iso1['isochrone'], col = colour[nrow(iso1['isochrone'])])
-
 # Save as GeoJSON
-st_write(iso1['isochrone'], "timetable_19092924_0900.geojson", driver = "GeoJSON")
+st_write(iso1['isochrone'], "150924_1700.geojson", driver = "GeoJSON")
 
 stop_r5(r5r_core)
