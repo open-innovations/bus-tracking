@@ -2,3 +2,4 @@
 18SepGB_GTFS_Timetables_Downloaded
 data
 .env
+__pycache__
