@@ -23,6 +23,8 @@ numba = "*"
 petl = "*"
 duckdb = "*"
 seaborn = "*"
+pyproj = "*"
+openpyxl = "*"
 
 [dev-packages]
 
