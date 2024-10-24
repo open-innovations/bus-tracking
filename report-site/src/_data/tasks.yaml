@@ -13,7 +13,7 @@
     </ul>
 - number: 3
   summary: Create accessibility isochrones for Liverpool City Region and web visualisation.
-  details: "See <a href='/visualisations'>visualisations page</a>"
+  details: "<ul><li>See <a href='/visualisations'>visualisations page</a></li></ul>"
 - number: 4
   summary: Complete QA & Sense-checking of final outputs collaboratively with LCRA in a
         face to face working session.
