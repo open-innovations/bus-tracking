@@ -1,7 +1,7 @@
 ---
 title: Visualisations
 ---
-<h3>Real</h3>
+<h3>Single isochrone example</h3>
 {{ comp.oi.map.zoomable({
     config: {
         data: [{ time: 2700, colour: 'blue'}],
@@ -18,7 +18,7 @@ title: Visualisations
     })
 }}
 <hr>
-<h3>Timetable</h3>
+<h3>Multi-isochrone example</h3>
 {{ comp.oi.map.zoomable({
     config: {
         data: [{ time: 3600, colour: '#734e83'}, { time: 2700, colour: '#2c5980'}, { time: 1800, colour: '#72c186'}, { time: 900, colour: '#fae35f'}],
@@ -29,8 +29,32 @@ title: Visualisations
             name: 'Tooltip label',
             template: '{{ name }}'}],
         key: 'time',
+        value: 'time',
+        scale: 'Viridis',
+        min: 3600,
+        max: 900,
         tooltip: "Tooltip label",
-        value: 'colour'
+        options: {
+            fillOpacity: 0.6 },
+        legend: {
+            position: 'top right',
+            items: [{
+                value: 3600,
+                label: '60 mins'
+                },
+                {
+                value: 2700,
+                label: '45 mins'
+                },
+                {
+                value: 1800,
+                label: '30 mins'
+                },
+                {
+                value: 900,
+                label: '15 mins' 
+                }]
+            }
         }
     })
 }}
