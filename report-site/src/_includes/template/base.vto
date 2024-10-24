@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{# I use the metas key here so that this is consistent with social media sharing #}}
+  <title>{{ title }} | {{ metas.site }}</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  {{# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> #}}
+  <link rel="icon" href="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='640' height='640' overflow='auto' viewBox='-32 -32 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='oi-person'%3E%3Cpath d='m-32-32h64v64h-12v-24a4 4 0 0 0 -4 -4h-8a4 4 0 0 0 -4 4v24h-36zm44 27m-8 0a8 8 0 1 0 16 0 8 8 0 1 0-16 0' fill='%23fff'%3E%3C/path%3E%3C/mask%3E%3Cg id='oi-logo' fill='black'%3E%3Ccircle r='32' mask='url(%23oi-person)'%3E%3C/circle%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+</head>
+<body class="b1-bg">
+
+  {{ include "partials/header.vto" }}
+
+	<div class="b6-bg">
+		<div class="holder padded tallpadded">
+		  {{ content |> safe }}
+		</div>
+	</div>
+
+  {{ include "partials/footer.vto" }}
+
+</body>
+</html>

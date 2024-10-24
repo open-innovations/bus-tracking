@@ -1,0 +1,36 @@
+---
+title: Visualisations
+---
+<h3>Real</h3>
+{{ comp.oi.map.zoomable({
+    config: {
+        data: [{ time: 2700, colour: 'blue'}],
+        geojson: {
+            data: 'geojson.isochrone',
+            key: 'time' },
+        columns: [{
+            name: 'Tooltip label',
+            data: '{{ time }}'}],
+        key: 'time',
+        tooltip: "Tooltip label",
+        value: 'colour'
+        }
+    })
+}}
+<hr>
+<h3>Timetable</h3>
+{{ comp.oi.map.zoomable({
+    config: {
+        data: [{ time: 3600, colour: '#734e83'}, { time: 2700, colour: '#2c5980'}, { time: 1800, colour: '#72c186'}, { time: 900, colour: '#fae35f'}],
+        geojson: {
+            data: 'geojson.isochrone_multi',
+            key: 'time' },
+        columns: [{
+            name: 'Tooltip label',
+            template: '{{ name }}'}],
+        key: 'time',
+        tooltip: "Tooltip label",
+        value: 'colour'
+        }
+    })
+}}

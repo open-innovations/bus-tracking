@@ -1,0 +1,11 @@
+---
+title: Progress report
+---
+{{ for task of tasks }}
+    {{ comp.task({ 
+        number: task.number,
+        summary: task.summary,
+        details: task.details })
+        }}
+    <hr>
+{{ /for }}

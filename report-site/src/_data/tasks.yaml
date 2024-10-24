@@ -1,0 +1,27 @@
+- number: 1
+  summary: "Complete a rapid engagement with the teams at LCRCA to set expectations 
+    and explore the opportunities for the application of this data infrastructure and visualisations."
+  details: "<ul><li>Met on 1st, 7th & 9th October</li><li>Discussed project with LCRCA colleagues</li>
+    <li>Considered train data, decided against for now</li></ul>"
+- number: 2
+  summary: Track all the buses in Liverpool City Region for 2 weeks and update existing BODS-GTFS code to GTFS RT standard.
+  details: <ul>
+    <li>Collected 2-weeks worth of GTFS-RT data for all of England</li>
+    <li>Updated code from C# to Python</li>
+    <li>Switched from Siri-VM to GTFS-RT</li>
+    <li><a href="https://github.com/open-innovations/bus-tracking">Published code on GitHub</a></li>
+    </ul>
+- number: 3
+  summary: Create accessibility isochrones for Liverpool City Region and web visualisation.
+  details: "See <a href='/visualisations'>visualisations page</a>"
+- number: 4
+  summary: Complete QA & Sense-checking of final outputs collaboratively with LCRA in a
+        face to face working session.
+  details:
+- number: 5
+  summary:  Publish regular technical blogs relating to the project on the Open Innovations website.
+  details: <ul>
+    <li>Written full first version of intro blog</li>
+    <li>LCRCA checking it through with their comms</li>
+    <li>We will continue to write up work as drafts ready for LCRCA to review<li>
+    </ul>

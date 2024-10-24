@@ -1,0 +1,18 @@
+layout: template/page.vto
+# date: Git Last Modified
+
+# Override the site logo colour here. Any CSS colour will work.
+logo_colour: c8-bg
+
+# Override the header class here. See https://open-innovations.org/brand for colour classes
+header_class: c2-bg
+
+# Automatically adds meta and social tags 
+# See https://lume.land/plugins/metas/
+metas:
+  site: Bus tracking report site
+  description: Web visualisations for LCRCA
+  image: https://open-innovations.org/resources/images/logos/oi-square.png
+  twitter: openinnovates
+  lang: en
+  keywords: [open, data, leeds, innovation, public, transport, bus]
