@@ -1,7 +1,5 @@
 import geopandas as gpd
 import pandas as pd
-import os
-from pathlib import Path
 from shapely.geometry import Point
 
 def load_population_data():
@@ -22,17 +20,42 @@ def load_geojson(path):
     data = gpd.read_file(path)
     return data
 
-def calculate_population(path):
+def estimate_population(path:str, where:None, return_frame=False):
+    """Estimate population in a geojson shape in England.
+    
+    Parameters
+    ----------
+    path: str
+        path the geojson/json file.
+    where: dict (optional)
+        select features from the FeatureCollection using `property_name: value` pairs stored in a dictionary. 
+        slices like pandas using `df[df[property_name] == value]`. 
+
+    Returns
+    -------
+    total: np.int
+        estimated population
+
+    contained_points: geodataframe
+        Dataframe of the Output areas that are inside the geometry.
+    """
     population = load_population_data()
     geodata = load_geojson(path)
-    
+    if where:
+        for property_name, value in where.items():
+            geodata = geodata[geodata[property_name] == value].copy()
+    print('Using the following geometry:\n', geodata.to_csv())
     population['contained'] = population['geometry'].apply(lambda point: geodata['geometry'].contains(point).any())
 
     # Filter the points that are contained within the multipolygons
     contained_points = population[population['contained']]
     # Print the population
-    print('Population estimate:', contained_points['Total'].sum())
-    return contained_points
+    total = contained_points['Total'].sum()
+    
+    if return_frame:
+        return total, contained_points
+    
+    return total
 
 def calculate_area_sqkm(gdf):
     gdf = gdf.set_crs("epsg:4326")
