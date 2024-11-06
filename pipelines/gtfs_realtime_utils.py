@@ -53,13 +53,13 @@ def get_entity_metadata(entities, path):
     for e in entities:
         trip = e.vehicle.trip
         # If trip_id is empty, count it, then check if route_id, start_date, start_time are populated.
-        if trip.trip_id == '':
+        if not trip.trip_id:
             t += 1
-            if trip.route_id != '':
+            if trip.route_id:
                 r += 1
-            if trip.start_time != '':
+            if trip.start_time:
                 st += 1
-            if trip.start_date != '':
+            if trip.start_date:
                 sd += 1
     
     d = pd.DataFrame(
@@ -68,6 +68,6 @@ def get_entity_metadata(entities, path):
             columns=['percent_of_entities']
             ).mul(100).div(len(entities))
     
-    d.to_csv(path)
+    # d.to_csv(path)
 
     return d
