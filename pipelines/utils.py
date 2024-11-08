@@ -142,9 +142,9 @@ def get_stop_names_and_bearings():
     stop_names_bearings['Bearing'] = stop_names_bearings['Bearing'].map(pd.Series({"N": 0, "NE": 45, "E": 90, "SE": 135, "S": 180, "SW": 225, "W": 270, "NW": 315}))
     return stop_names_bearings
 
-def convert_to_unix_timestamp(time_value, date_str):
+def convert_to_unix_timestamp(time, date_str):
     # Handle the case where the hour is 24
-    time_value = date_str + ' ' + time_value
+    time_value = date_str + ' ' + time
     hh = int(time_value[11:13])
     if hh > 23:
         newhh = int(hh - 24)
@@ -156,5 +156,5 @@ def convert_to_unix_timestamp(time_value, date_str):
         date_obj = datetime.strptime(time_value, '%Y-%m-%d %H:%M:%S')
 
     # Convert to Unix timestamp - this also eliminates BST issues. Is detected automatically by system settings.
-    unix_timestamp = int(date_obj.timestamp())
-    return unix_timestamp
+    result = int(date_obj.timestamp())
+    return result
