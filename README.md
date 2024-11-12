@@ -10,7 +10,7 @@
 - [ ] Complete QA on the new code.
 - [ ] ~~Get MerseyRail GTFS-RT data for the trains?!~~
 - [X] Analyse/Create charts for travel time isochrones of Liverpool buses/trains using ~~OpenTripPlanner2~~ R5R.
-- [ ] Create graphs of real journey times for individual bus/train routes throughout the week.
+- [X] Create graphs of real journey times for individual bus/train routes throughout the week.
 
 ## Environment
 
