@@ -40,7 +40,7 @@ A [Lume](https://lume.land) static site for tracking progress and visualisisng r
 
 Realtime bus data for a tracking website (to be shared openly Dec 2024.)
 `process.ipynb` is the main script for producing the data.
-Data is organies by region (using NUTS codes).
+Data is organised by region (using NUTS codes).
 
 Each data file is named by a unique ID, which is either scraped from [bustimes.org](https://bustimes.org), or failing that, the `route_short_name-agency_noc.json` e.g. `X84-FLDS.json`.
 
