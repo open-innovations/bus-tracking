@@ -47,6 +47,8 @@ def entities_to_list(feed, filepaths):
                     entities.append(entity)
     return entities
 
+# ------ #
+
 def get_entity_metadata(entities, path):
     ''''''
     t, r, st, sd = 0, 0, 0, 0
