@@ -5,7 +5,7 @@ from io import TextIOWrapper
 import os
 import time
 from datetime import datetime, timedelta
-ROOT = Path(os.getcwd())
+# ROOT = Path(os.getcwd())
 class BusDetail:
     def __init__(self) -> None:
         pass
@@ -67,7 +67,7 @@ def load_gtfs_ids(gtfs_path):
             print('Loaded stops.txt')
 
         if file == 'stop_times.txt':
-            stop_times = data[['trip_id', 'stop_id']]
+            stop_times = data #[['trip_id', 'stop_id', 'stop_sequence']]
             print('Loaded stop_times.txt')
 
         if file == 'trips.txt':
@@ -128,7 +128,7 @@ def load_full_gtfs(path, include=None):
     
     return result
 
-def get_stop_names_and_bearings():
+def get_stop_names_and_bearings(ROOT):
     """
     Get the bearings and full names for each stop_id in the UK NaPTAN database.
 
