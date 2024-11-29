@@ -5,3 +5,4 @@ data
 __pycache__
 report-site
 web/bustimes.org.json
+itm_england_gtfs
