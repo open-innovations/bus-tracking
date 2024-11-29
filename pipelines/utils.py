@@ -158,3 +158,38 @@ def convert_to_unix_timestamp(time, date_str):
     # Convert to Unix timestamp - this also eliminates BST issues. Is detected automatically by system settings.
     result = int(date_obj.timestamp())
     return result
+
+def fraction_with_trip_id(my_list):
+    count = 0
+    for item in my_list:
+        if item:
+            count += 1
+    return round(100 * count / len(my_list), 5)
+
+def fill_trip_ids(trip_id_list):
+    copy = trip_id_list.copy()
+    saved_id = None
+    for i in range(len(trip_id_list)):
+        nth_id = trip_id_list[i].strip()
+        
+        # So we don't raise an error when we get to the end of the list.
+        if i == len(trip_id_list) - 1:
+            break
+
+        if nth_id:
+            # If the nth_id exists (not an empty string), save the id and its index
+            saved_id = nth_id
+            saved_idx = i
+        
+        n_plus_oneth_id = trip_id_list[i+1].strip()
+
+        # If the nth id is an empty string, but the n plus one-th id is defined
+        if not nth_id and n_plus_oneth_id:
+            # If saved_id is defined.
+            if saved_id:
+            # If the n plus one-th id equals the previous saved_id.
+                if n_plus_oneth_id == saved_id:
+                    # set all the values between that previous row and the current row to be that trip_id. then move to the next iteration.
+                    copy[saved_idx: i + 1] = [saved_id] * (i - saved_idx + 1)
+    assert len(copy) == len(trip_id_list)
+    return copy
