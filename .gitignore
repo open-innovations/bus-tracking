@@ -1,8 +1,16 @@
 .DS_Store
 18SepGB_GTFS_Timetables_Downloaded
-data
+data/debugging
+data/geojson
+data/gtfs
+data/gtfs-rt
+data/gtfsrt_20241127
+data/population
+data/real
+data/uk_stops
 .env
 __pycache__
 report-site
 web/bustimes.org.json
 itm_england_gtfs
+~data/evaluate/*.txt
