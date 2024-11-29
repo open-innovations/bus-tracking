@@ -1,0 +1,14 @@
+Date: 20240920
+--BODS (all England)--
+Percentage of de-duplicated BODS data with trip_id(s) before filling gaps: 84.65%
+Percentage of de-duplicated BODS data with trip_id(s) after filling gaps: 86.39%
+Percentage of de-duplicated BODS data without trip_id: 13.61%
+Percentage of de-duplicated BODS data we recovered a trip_id: 1.74%
+
+--LCRCA ONLY--
+Percentage of timetabled buses for which we tracked at least 1 data point: 82.12%
+Cancelled buses that were in the real data: 0
+Buses not tracked because they were cancelled: unknown
+Buses that never appear in BODS, but the buses still ran: unknown
+Percentage of buses we tracked with trip_ids and at least 10 different locations/times: 97.68
+-------------------------------
