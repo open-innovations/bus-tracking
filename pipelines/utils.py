@@ -7,6 +7,7 @@ import time
 from datetime import datetime, timedelta
 # ROOT = Path(os.getcwd())
 class BusDetail:
+    '''Class to store information about individual bus locations'''
     def __init__(self) -> None:
         pass
 
@@ -26,6 +27,8 @@ def unzip_file(zip_file_path, extract_dir):
             full_file_path = os.path.join(extract_dir, file_name)
     print(f"Successfully unzipped all files in {zip_file_path} to {extract_dir}.")
     return
+
+# ------ #
 
 def load_gtfs_ids(gtfs_path):
     """
@@ -80,6 +83,8 @@ def load_gtfs_ids(gtfs_path):
     
     return agencies, routes, stops, stop_times, trips
 
+# ------ #
+
 def load_full_gtfs(path, include=None):
     """
     Read GTFS files from path (can be either a zip file or directory containing the individual files) and get the required components. Additionally, read any optional files specified in `include`.
@@ -128,6 +133,8 @@ def load_full_gtfs(path, include=None):
     
     return result
 
+# ------ #
+
 def get_stop_names_and_bearings(ROOT):
     """
     Get the bearings and full names for each stop_id in the UK NaPTAN database.
@@ -142,7 +149,10 @@ def get_stop_names_and_bearings(ROOT):
     stop_names_bearings['Bearing'] = stop_names_bearings['Bearing'].map(pd.Series({"N": 0, "NE": 45, "E": 90, "SE": 135, "S": 180, "SW": 225, "W": 270, "NW": 315}))
     return stop_names_bearings
 
+# ------ #
+
 def convert_to_unix_timestamp(time, date_str):
+    '''Convert HHMMSS format, potentially with HH > 23, to a unix timestamp.'''
     # Handle the case where the hour is 24
     time_value = date_str + ' ' + time
     hh = int(time_value[11:13])
@@ -159,37 +169,46 @@ def convert_to_unix_timestamp(time, date_str):
     result = int(date_obj.timestamp())
     return result
 
+# ------ #
+
 def fraction_with_trip_id(my_list):
     count = 0
     for item in my_list:
-        if item:
+        if pd.notna(item):
             count += 1
     return round(100 * count / len(my_list), 5)
 
+# ------ #
+    
 def fill_trip_ids(trip_id_list):
+    '''Fill in the missing trip_ids from an ordered list of trip_ids.'''
     copy = trip_id_list.copy()
     saved_id = None
     for i in range(len(trip_id_list)):
-        nth_id = trip_id_list[i].strip()
+        nth_id = trip_id_list[i]
         
         # So we don't raise an error when we get to the end of the list.
         if i == len(trip_id_list) - 1:
             break
 
-        if nth_id:
+        if pd.notna(nth_id):
             # If the nth_id exists (not an empty string), save the id and its index
             saved_id = nth_id
             saved_idx = i
         
-        n_plus_oneth_id = trip_id_list[i+1].strip()
+        n_plus_oneth_id = trip_id_list[i+1]
 
         # If the nth id is an empty string, but the n plus one-th id is defined
-        if not nth_id and n_plus_oneth_id:
+        if pd.isna(nth_id) and pd.notna(n_plus_oneth_id):
             # If saved_id is defined.
-            if saved_id:
+            if pd.notna(saved_id):
             # If the n plus one-th id equals the previous saved_id.
                 if n_plus_oneth_id == saved_id:
                     # set all the values between that previous row and the current row to be that trip_id. then move to the next iteration.
                     copy[saved_idx: i + 1] = [saved_id] * (i - saved_idx + 1)
     assert len(copy) == len(trip_id_list)
     return copy
+
+def make_date_with_dashes(date):
+    assert len(date) == 8, 'Date appears to be wrong length.'
+    return f"{date[0:4]}-{date[4:6]}-{date[6:8]}"
