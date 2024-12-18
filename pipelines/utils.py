@@ -156,15 +156,20 @@ def convert_to_unix_timestamp(time, date_str):
     # Handle the case where the hour is 24
     time_value = date_str + ' ' + time
     hh = int(time_value[11:13])
-    if hh > 23:
-        newhh = int(hh - 24)
-        if newhh/10 < 1:
-            newhh = f'0{newhh}'
+    n_days = hh // 24
+    if n_days > 0:
+        newhh = str(int(hh - 24*n_days))
+        # print('newhh', newhh)
+        if len(newhh) == 1:
+            newhh = newhh.zfill(2)
+        # print('newhh', newhh)
+        # print('hh', hh)
         time_value = time_value.replace(f'{hh}:', f'{newhh}:')  # Replace 24: with 00:
-        date_obj = datetime.strptime(time_value, '%Y-%m-%d %H:%M:%S') + timedelta(days=1)  # Increment the day
+        # print(time_value, 'h')
+        date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S') + timedelta(days=2)  # Increment the day
     else:
-        date_obj = datetime.strptime(time_value, '%Y-%m-%d %H:%M:%S')
-
+        date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S')
+    # print(date_obj)
     # Convert to Unix timestamp - this also eliminates BST issues. Is detected automatically by system settings.
     result = int(date_obj.timestamp())
     return result
