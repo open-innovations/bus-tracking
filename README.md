@@ -7,7 +7,7 @@
 - [X] Re-write the BODS2GTFS code in Python (was in C#.NET before).
 - [X] Update the code to work with GTFS-RT rather the Siri-VM.
 - [X] Publish the code and data on GitHub.
-- [ ] Complete QA on the new code.
+- [X] Complete QA on the new code.
 - [ ] ~~Get MerseyRail GTFS-RT data for the trains?!~~
 - [X] Analyse/Create charts for travel time isochrones of Liverpool buses/trains using OpenTripPlanner2
 - [X] Create graphs of real journey times for individual bus/train routes throughout the week.
@@ -80,7 +80,7 @@ Values are:
 `trips` is an array. Each item of the array is itself an array of stop times. Each stop time is an array of the form [`stop_id`, `realtime`, `timetable`].
 `stop_id` is a unique identifier of the stop, `realtime` is a unixtimestamp of when the bus arrived at the stop and `timetable` is a timestamp of when the bus was timetabled to arrive at the stop.
 
-## R
+## ~~R~~
 
 DEPRACATED: Exploring use of R5R to create travel time isochrones.
 
