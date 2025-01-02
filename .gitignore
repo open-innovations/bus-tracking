@@ -16,5 +16,6 @@ web/bustimes.org.json
 itm_england_gtfs
 ~data/evaluate/*.txt
 investigations/test
+investigations/nl
 pipelines/*.geojson
 data/real-interpolated
