@@ -4,6 +4,7 @@ import zipfile
 from io import TextIOWrapper
 import os
 import time
+import pytz
 from datetime import datetime, timedelta
 # ROOT = Path(os.getcwd())
 class BusDetail:
@@ -151,25 +152,20 @@ def get_stop_names_and_bearings(ROOT):
 
 # ------ #
 
-def convert_to_unix_timestamp(time, date_str):
-    '''Convert HHMMSS format, potentially with HH > 23, to a unix timestamp.'''
-    # Handle the case where the hour is 24
+def gtfs_time_to_unix_timestamp(time, date_str):
+    '''Convert HHMMSS format, where hour can be > 23, to a unix timestamp.'''
+    # Handle the case where the hour is >=24
     time_value = date_str + ' ' + time
     hh = int(time_value[11:13])
-    n_days = hh // 24
+    n_days = hh // 24 # floor division gives number of days
     if n_days > 0:
-        newhh = str(int(hh - 24*n_days))
-        # print('newhh', newhh)
+        newhh = str(int(hh - 24*n_days)) # 
         if len(newhh) == 1:
             newhh = newhh.zfill(2)
-        # print('newhh', newhh)
-        # print('hh', hh)
-        time_value = time_value.replace(f'{hh}:', f'{newhh}:')  # Replace 24: with 00:
-        # print(time_value, 'h')
+        time_value = time_value.replace(f' {hh}:', f' {newhh}:')  # Replace 24: with 00:
         date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S') + timedelta(days=2)  # Increment the day
     else:
         date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S')
-    # print(date_obj)
     # Convert to Unix timestamp - this also eliminates BST issues. Is detected automatically by system settings.
     result = int(date_obj.timestamp())
     return result
@@ -217,3 +213,28 @@ def fill_trip_ids(trip_id_list):
 def make_date_with_dashes(date):
     assert len(date) == 8, 'Date appears to be wrong length.'
     return f"{date[0:4]}-{date[4:6]}-{date[6:8]}"
+
+def tz_offset(date:str, geo='Europe/London'):
+    '''
+    Calculate the number of hours timezone difference to UTC on a given date
+    
+    Parameters:
+    ----------
+    date: str 
+        iso8061 date
+    geo: str
+        Default 'Europe/London'. See pytz.all_timezones for a full list
+    
+    Returns:
+    --------
+    offset_hours: int
+        Number of hours offset to UTC
+    '''
+    date = datetime(int(date[0:4]), int(date[4:6]), int(date[6:8]))
+    # Define the timezone (e.g., New York)
+    tz = pytz.timezone(geo)
+    # Make the date timezone-aware
+    aware_date = tz.localize(date)
+    # Get the UTC offset in hours
+    offset_hours = aware_date.utcoffset().total_seconds() // 3600
+    return int(offset_hours)
