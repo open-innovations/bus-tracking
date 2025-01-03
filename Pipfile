@@ -25,6 +25,7 @@ duckdb = "*"
 seaborn = "*"
 pyproj = "*"
 openpyxl = "*"
+pytz = "*"
 
 [dev-packages]
 
