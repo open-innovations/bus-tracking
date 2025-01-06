@@ -4,6 +4,7 @@ import zipfile
 from io import TextIOWrapper
 import os
 import time
+import shutil
 import pytz
 from datetime import datetime, timedelta
 # ROOT = Path(os.getcwd())
@@ -210,11 +211,15 @@ def fill_trip_ids(trip_id_list):
     assert len(copy) == len(trip_id_list)
     return copy
 
+# ------ #
+
 def make_date_with_dashes(date):
     '''Returns a date in yyyy-mm-dd format. Input can be str or int.'''
     date = str(date)
     assert len(date) == 8, 'Date appears to be wrong length.'
     return f"{date[0:4]}-{date[4:6]}-{date[6:8]}"
+
+# ------ #
 
 def tz_offset(date:str, geo='Europe/London'):
     '''
@@ -240,3 +245,62 @@ def tz_offset(date:str, geo='Europe/London'):
     # Get the UTC offset in hours
     offset_hours = aware_date.utcoffset().total_seconds() // 3600
     return int(offset_hours)
+
+# ------ #
+
+def zip_directory(folder_path, output_dir_path, output_filename):
+    '''Zip a directory
+
+    Params
+    ------
+    folder_path: path to the folder you want to zip
+    output_dir_path: path to the place you want to save the zip file.
+    output_filename: name of the zip file.
+
+    '''
+    # Ensure the output filename does not have a .zip extension
+    if not output_filename.endswith('.zip'):
+        output_filename += '.zip'
+    # Join the output directory and filename
+    output_zip_path = output_dir_path / output_filename
+    
+    # Create the zip archive in the specified directory
+    shutil.make_archive(output_zip_path.with_suffix(''), 'zip', folder_path)
+    print(f"Directory '{folder_path}' successfully zipped as '{output_filename}'.")
+
+# ----- #
+
+def unix_to_gtfs_time(unix_timestamps, date, tz):
+    """
+    Optimized conversion of Unix timestamps to GTFS time format (HH:MM:SS) with support for hours > 23.
+    
+    Parameters:
+    -----------
+    - unix_timestamps: A Pandas Series of Unix timestamps
+    - date: A string or datetime representing the base date
+    - tz: A integer value for the timezone difference to UTC
+    
+    Returns:
+    --------
+    - A Pandas Series of GTFS formatted times
+    """
+    # Precompute date conversion
+    given_date = pd.to_datetime(date)
+    # print('given date', given_date)
+    # Convert Unix timestamps to datetime and extract time
+    given_datetimes = pd.to_datetime(unix_timestamps, unit='s')
+    # print('given datetimes', given_datetimes)
+    time_strs = given_datetimes.dt.strftime('%H:%M:%S')
+    # print('timestrs', time_strs)
+    # Identify timestamps belonging to the next day
+    is_next_day = given_datetimes.dt.date != given_date.date()
+    # print(is_next_day)
+    if not tz:
+        tz = 0
+
+    # Adjust hours for next-day times
+    adjusted_times = (
+        (is_next_day.astype(int) * 24 ) + (given_datetimes.dt.hour + tz)
+    ).astype(int).astype(str).str.zfill(2) + time_strs.str[2:]
+    # print(adjusted_times)
+    return adjusted_times
