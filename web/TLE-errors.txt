@@ -1,56 +1,56 @@
-Unable to find route name details via bustimes.org for ('M31', 'RELD', 'Reliance Motor Services'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('875', 'RELD', 'Reliance Motor Services'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M4', 'RELD', 'Reliance Motor Services'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('821', 'KDTR', 'The Keighley Bus Company'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('820', 'KDTR', 'The Keighley Bus Company'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('832', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('X84', 'FLDS', 'First Leeds'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('8', 'FLDS', 'First Leeds'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('6', 'FLDS', 'First Leeds'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M7', 'KJTR', 'York Pullman'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('171', 'NATX', 'National Express'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('866', 'KDTR', 'The Keighley Bus Company'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('520', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('200', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('GOLDEN_TOURS_HOP_ON_HOP_OFF', 'KJTR', 'York Pullman'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('560', 'NATX', 'National Express'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('152', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('564', 'NATX', 'National Express'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('822', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('66', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('165', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('350', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('825', 'RELD', 'Reliance Motor Services'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('831', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('1D', 'HRGT', 'The Harrogate Bus Company'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('13', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('830', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('P1', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M3', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('105', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('X94', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('858', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('63', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('121', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('154', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('859', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('1', 'FLDS', 'First Leeds'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M4', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('64', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M5', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('P2', 'ANEA', 'Arriva North East'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M6', 'KJTR', 'York Pullman'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('43A', 'SYRK', 'Stagecoach Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('14', 'YCST', 'Coastliner'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('23', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('BLUE', 'SYRK', 'Stagecoach Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('66B', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('153', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('249', 'GLCS', 'Globe Coaches'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('389', 'ESTS', 'Stotts Coaches'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('20', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('1B', 'FLDS', 'First Leeds'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('465', 'NATX', 'National Express'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('71E', 'EYMS', 'East Yorkshire'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M3', 'COTY', 'Coatham Coaches'). Skipping to next route.
-Unable to find route name details via bustimes.org for ('M4', 'COTY', 'Coatham Coaches'). Skipping to next route.
+Unable to find route name details via bustimes.org for ('465', 'NATX', 'National Express'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M31', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('875', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M4', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('821', 'KDTR', 'The Keighley Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('820', 'KDTR', 'The Keighley Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('832', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('X84', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('8', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('6', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M7', 'KJTR', 'York Pullman'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('171', 'NATX', 'National Express'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('866', 'KDTR', 'The Keighley Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('520', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('200', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('GOLDEN_TOURS_HOP_ON_HOP_OFF', 'KJTR', 'York Pullman'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('560', 'NATX', 'National Express'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('152', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('564', 'NATX', 'National Express'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('822', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('66', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('165', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('350', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('825', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('831', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('1D', 'HRGT', 'The Harrogate Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('13', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('830', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('P1', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M3', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('105', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('X94', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('858', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('63', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('121', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('154', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('859', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('1', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M4', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('64', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M5', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('P2', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M6', 'KJTR', 'York Pullman'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('43A', 'SYRK', 'Stagecoach Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('14', 'YCST', 'Coastliner'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('23', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('BLUE', 'SYRK', 'Stagecoach Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('66B', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('153', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('249', 'GLCS', 'Globe Coaches'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('389', 'ESTS', 'Stotts Coaches'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('20', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('1B', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('71E', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M3', 'COTY', 'Coatham Coaches'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M4', 'COTY', 'Coatham Coaches'). Using route_short_name and agency_name/noc instead.
