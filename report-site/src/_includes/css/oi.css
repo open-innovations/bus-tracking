@@ -164,3 +164,33 @@ summary:hover, summary:focus {
   table {
     margin-bottom: 0.25rem;
   }
+  .oi-dashboard + * { margin-top: 1rem; }
+    .oi-dashboard-inner { display: flex; gap: 1em; flex-wrap: wrap; flex-direction: row; align-items: stretch; }
+    .oi-dashboard-inner .panel {
+        width: 330px;
+        flex-grow: 1;
+        background: #722EA5;
+        color: white!important;
+        padding: 1rem;
+    }
+    .oi-dashboard-inner .panel h3 { font-size: 1.2rem; }
+    .oi-dashboard-inner .panel span { display: block; }
+    .oi-dashboard-inner .panel .bignum { font-size: 3rem; line-height: 1em; margin-top: 0.5rem; }
+    .oi-dashboard-inner .footnote {
+        font-size: 0.7em;
+        text-align: left;
+        display: block;
+        line-height: 1.5em;
+        margin-top: 0.5rem;
+    }
+
+.report-table {
+    width: 100%;
+}
+.report-table td {
+    text-align: left;
+    padding: 0.5em;
+}
+.report-table td:nth-child(2){
+    text-align: center;
+}
