@@ -163,7 +163,7 @@ def gtfs_time_to_unix_timestamp(time, date_str):
         if len(newhh) == 1:
             newhh = newhh.zfill(2)
         time_value = time_value.replace(f' {hh}:', f' {newhh}:')  # Replace 24: with 00:
-        date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S') + timedelta(days=1)  # Increment the day
+        date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S') + timedelta(days=n_days)  # Increment the day
     else:
         date_obj = datetime.strptime(time_value, r'%Y-%m-%d %H:%M:%S')
     # Convert to Unix timestamp - this also eliminates BST issues. Is detected automatically by system settings.
