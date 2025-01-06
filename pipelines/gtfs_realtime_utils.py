@@ -100,7 +100,7 @@ def gtfsrt_filepaths_to_list(dir, date):
     for root, dirs, files in os.walk(dir):
         for file in files:
             # Get the full path of the file and append it to the list
-            if date_with_dashes in file: #@TODO improve the slice here to a regex match for the date.
+            if date_with_dashes in file: 
                 full_path = os.path.abspath(os.path.join(root, file))
                 gtfs_rt_file_paths.append(full_path)
     
