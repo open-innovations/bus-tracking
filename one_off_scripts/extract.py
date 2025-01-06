@@ -1,8 +1,8 @@
 import os
 import zipfile
 
-zip_dir = "data/gtfs-rt/FullDays"
-extract_dir = "data/gtfs-rt"
+zip_dir = "investigations/test/sirivm"
+extract_dir = "investigations/test/sirivm/xml"
 
 os.makedirs(extract_dir, exist_ok=True)
 
