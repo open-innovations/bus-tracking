@@ -19,6 +19,7 @@ seaborn = "*"
 pyproj = "*"
 openpyxl = "*"
 pytz = "*"
+papermill = "*"
 
 [dev-packages]
 

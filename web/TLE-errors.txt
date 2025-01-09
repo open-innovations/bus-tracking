@@ -1,0 +1,14 @@
+Unable to find route name details via bustimes.org for ('465', 'NATX', 'National Express'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M31', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('875', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M4', 'RELD', 'Reliance Motor Services'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('821', 'KDTR', 'The Keighley Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('820', 'KDTR', 'The Keighley Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('832', 'ANEA', 'Arriva North East'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('X84', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('8', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('6', 'FLDS', 'First Leeds'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('M7', 'KJTR', 'York Pullman'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('171', 'NATX', 'National Express'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('866', 'KDTR', 'The Keighley Bus Company'). Using route_short_name and agency_name/noc instead.
+Unable to find route name details via bustimes.org for ('520', 'EYMS', 'East Yorkshire'). Using route_short_name and agency_name/noc instead.
