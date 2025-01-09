@@ -19,3 +19,4 @@ investigations/test
 investigations/nl
 pipelines/*.geojson
 data/real-interpolated
+data/real-interpolated-vid
