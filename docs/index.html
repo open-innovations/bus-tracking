@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8" />
+	<title>Bus tracking project</title>
+	<link rel="icon" href="https://open-innovations.org/resources/images/logos/oi-square-8.svg" />
+	<link rel="StyleSheet" href="resources/style.css" />
+	<link rel="StyleSheet" href="resources/typeahead.css" />
+	<script src="resources/tooltip.js"></script>
+	<script src="resources/typeahead.js"></script>
+	<script src="resources/chart.js"></script>
+	<script src="resources/buses.js"></script>
+	<style>
+	input[type="text"], .typeahead-results ol { border: 2px solid black; }
+	#result, #map { border: 1px solid #dfdfdf; }
+
+	form { display: flex; flex-direction: row; flex; gap: 1rem; }
+	form > div:first-child { flex-grow: 1; }
+	form > div:last-child { flex-grow: 2; }
+	input[type=text],select { display: block; font-size: 1em; line-height: 1.5em; height: 2.5em; padding-inline: 5px; max-width: 100%; }
+	input[type=text] { width: 100%; }
+	#buses:focus { box-shadow: inset 0 0 0 2px; outline: 3px solid #fd0; outline-offset: 0; }
+	.nodata { color: #999999; }
+	.typeahead-results ol li[aria-selected="true"].nodata { color: #999999; background: #bbbbbb; }
+
+	.step { font-family: Poppins; }
+
+	input.leaflet-control-layers-selector {height:1em;}
+	.leaflet-retina .leaflet-control-layers-toggle, .leaflet-control-layers-toggle { width: 30px; height: 30px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-stack' viewBox='0 0 16 16'%3E%3Cpath d='m14.12 10.163 1.715.858c.22.11.22.424 0 .534L8.267 15.34a.6.6 0 0 1-.534 0L.165 11.555a.299.299 0 0 1 0-.534l1.716-.858 5.317 2.659c.505.252 1.1.252 1.604 0l5.317-2.66zM7.733.063a.6.6 0 0 1 .534 0l7.568 3.784a.3.3 0 0 1 0 .535L8.267 8.165a.6.6 0 0 1-.534 0L.165 4.382a.299.299 0 0 1 0-.535z'/%3E%3Cpath d='m14.12 6.576 1.715.858c.22.11.22.424 0 .534l-7.568 3.784a.6.6 0 0 1-.534 0L.165 7.968a.299.299 0 0 1 0-.534l1.716-.858 5.317 2.659c.505.252 1.1.252 1.604 0z'/%3E%3C/svg%3E"); background-size: 50%; }
+	.leaflet-control-layers-expanded { padding: 10px; }
+	.leaflet-control-layers fieldset { border: 0; padding: 0; margin: 0; font-size: 1rem;}
+	.leaflet-control-layers legend { margin: 0 0 4px 0; font-weight: bold; font-family: Poppins; line-height: 1em; }
+	.leaflet-control-layers-separator { margin: 10px -10px; }
+	.leaflet-control-layers .leaflet-control-layers-list { padding-block: 0; }
+	.control-tiles label { margin-top: 4px; }
+	.control-tiles .leaflet-control-layers-selector { opacity: 0.01; position: absolute; }
+	.control-tiles .leaflet-control-layers-selector + span { display: block; position: relative; cursor: pointer; line-height: 40px; border-radius: 2px; overflow: hidden; padding-right: 0.25em; }
+	.control-tiles .leaflet-control-layers-selector + span img { float: left; width: 40px; height: 40px; margin-right: 0.25em; position: relative; }
+	.control-tiles .leaflet-control-layers-selector:checked + span { outline: 2px solid #e6007c; background: #efefef; }
+	.leaflet-popup-content { margin: 1em; font-size: 1rem; }
+	.leaflet-popup-content table td:first-child { padding-right: 0.5em; }
+	.leaflet-popup-content ul { margin: 0px!important; margin-bottom: 0px!important; list-style: none; padding: 0px; }
+	.leaflet-popup-content ul li { margin: 0px; list-style: none; padding: 0px; }
+	.leaflet-popup-content-wrapper { border-radius: 0px; font-size: 1em; }
+	.leaflet-popup-content-wrapper, .leaflet-popup-tip { box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4); }
+	.leaflet-popup-tip { margin-top: -9px; }
+	.marker.active { stroke:#000;stroke-width:2.5px;r:5px; }
+	
+	.buttons, .stop-nav { display: flex; gap: 0.5rem; width: 100%; margin-top: 0.5rem; }
+	.buttons button { flex-grow: 1; border-radius: 4px; }
+	.stop-nav { font-size: 0.8em; }
+	.stop-nav ul.prev { flex-grow: 1; }
+	.stop-nav ul.next { text-align: right; }
+	.stop-nav ul span { flex-grow: 1; }
+	.stop-nav li { display: flex; white-space:nowrap; cursor: pointer; }
+
+	#controls { width: 50vw; }
+	#output { display: none; margin-top: 1rem; }
+	#map {
+		height: 80vh;
+		max-height: 500px;
+		width: 100%;
+	}
+	#result { padding: 1rem; margin-top: 2rem; }
+	#result ol { margin-left: 2rem; }
+	.row { display: flex; gap: 0.5rem; }
+	.row label { line-height: 2.5rem; }
+	.row + * { margin-top: 1rem; }
+	.bus-stop svg {
+		position:absolute;
+		left:50%;
+		top:50%;
+		width: 1rem;
+		height: 1rem;
+		transform:translate3d(-50%,-50%,0);
+	}
+	.bus-stop[disabled=disabled] { display: none; }
+	.bus-stop circle.stop { fill: grey; }
+	.bus-stop circle.border { r: 1px; }
+	.bus-stop.selected circle.stop { fill: black; }
+	.bus-stop.selected { z-index:1000!important; }
+	.bus-stop.selected circle.border, .bus-stop.open circle.border { r: 14px; }
+	.bus-stop.start circle.border { fill: #0DBC37; }
+	.bus-stop.end circle.border { fill: #722EA5; }
+	.leaflet-popup-content p { margin-bottom: 0.5rem; }
+	.leaflet-popup-content button { margin-top: 0; margin-right: 2px; }
+	.start { background: #0DBC37; color: black!important; }
+	.end { background: #722EA5; color: white!important; }
+	.slow { background: red; }
+	.stops { display: flex; align-items: center; }
+	.strip { padding-block: 0.25em; padding-inline: 0.35em; border-radius: 4px; text-decoration: none; display: inline-block; font-family: Poppins; font-size: 1.2em }
+	.legend { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+	.legend > * { display: flex; gap: 0.5rem; align-items: center; }
+	.icon { width: 0.5em; height: 0.5em; border-radius: 100%; }
+	.loader { position: relative; left: 50%; transform: translate3d(-50%,0,0); }
+	.tooltip h3 { margin-bottom: 0; font-size: 1em; }
+	.tooltip * + p { margin-top: 0.1rem; }
+	.tooltip strong { font-family: Poppins; }
+	.tooltip table { width: 100%; margin-top: 0.5rem; border-spacing: 4px; }
+	.tooltip tr > * { padding-inline: 0.25rem; text-align: center; border: 1px solid black; }
+	.tooltip tr > *:first-child { text-align: left; }
+	.tooltip tr > *:last-child { text-align: right; }
+	.timetable { background: #0072B2; color: black; }
+	.real { background: #D55E00; color: black; }
+	td.interpolated { background: #a66741; }
+	.marker.interpolated { fill: #a66741; }
+	
+	@media only screen and (max-width: 54rem) {
+		form { display: block; }
+		form > div { margin-top: 1rem; }
+		form > div:first-child { margin-top: 0; }
+		.strip { font-size: 1rem; }
+	}
+	</style>
+</head>
+<body class="b1-bg">
+	<div class="message warning padded tallpadded">
+		<div class="holder">
+			<p>Warning: This is a very basic proof-of-concept. It only includes routes for Yorkshire &amp; the Humber and the North West.</p>
+		</div>
+	</div>
+	<header class="b1-bg padded">
+		<div class="holder">
+			<a href="https://open-innovations.org/"><img alt="Open Innovations logo" src="https://open-innovations.org/resources/images/logos/oi-square-8.svg" style="width:2em;height:2em;float:left;margin-right:0.5rem;margin-top:-0.1em;"></a>
+			<h1>Bus tracking project</h1>
+		</div>
+	</header>
+	<div class="b6-bg doublepadded" style="min-height:60vh;">
+		<div class="holder" id="bus">
+			<p>This is a <a href="#notes">prototype</a> to see how the real bus journey times differ from the timetabled journey times.</p>
+
+			<form id="form">
+				<input type="hidden" id="service">
+				<div>
+					<label for="itl" class="step">1. Select a region/nation</label>
+					<select id="itl">
+						<option value="">Select a region/nation</option>
+						<optgroup label="England">
+							<!--<option value="TLC">North East</option>-->
+							<option value="TLD">North West</option>
+							<option value="TLE">Yorkshire & the Humber</option>
+							<!--<option value="TLF">East Midlands</option>
+							<option value="TLG">West Midlands</option>
+							<option value="TLH">East Anglia</option>
+							<option value="TLI">London</option>
+							<option value="TLJ">South East</option>
+							<option value="TLK">South West</option>-->
+						</optgroup>
+						<!--
+						<option value="TLM">Scotland</option>
+						<option value="TLL">Wales</option>
+						-->
+					</select>
+				</div>
+				<div>
+					<label for="buses" class="step">2. Search for a bus route:</label>
+					<input type="text" id="buses" value="" placeholder="e.g. 33">
+				</div>
+			</form>
+			<svg class="loader" style="display:none" version="1.1" width="64" height="64" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g transform="matrix(.11601 0 0 .11601 -49.537 -39.959)"><path d="m610.92 896.12m183.9-106.17-183.9-106.17-183.9 106.17v212.35l183.9 106.17 183.9-106.17z"><animate attributeName="opacity" values="1;0;0" keyTimes="0;0.7;1" dur="1s" begin="-0.83333s" repeatCount="indefinite"></animate></path><path d="m794.82 577.6m183.9-106.17-183.9-106.17-183.9 106.17v212.35l183.9 106.17 183.9-106.17z"><animate attributeName="opacity" values="1;0;0" keyTimes="0;0.7;1" dur="1s" begin="-0.6666s" repeatCount="indefinite"></animate></path><path d="m1162.6 577.6m183.9-106.17-183.9-106.17-183.9 106.17v212.35l183.9 106.17 183.9-106.17z"><animate attributeName="opacity" values="1;0;0" keyTimes="0;0.7;1" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate></path><path d="m1346.5 896.12m183.9-106.17-183.9-106.17-183.9 106.17v212.35l183.9 106.17 183.9-106.17z"><animate attributeName="opacity" values="1;0;0" keyTimes="0;0.7;1" dur="1s" begin="-0.3333s" repeatCount="indefinite"></animate></path><path d="m1162.6 1214.6m183.9-106.17-183.9-106.17-183.9 106.17v212.35l183.9 106.17 183.9-106.17z"><animate attributeName="opacity" values="1;0;0" keyTimes="0;0.7;1" dur="1s" begin="-0.1666s" repeatCount="indefinite"></animate></path><path d="m794.82 1214.6m183.9-106.17-183.9-106.17-183.9 106.17v212.35l183.9 106.17 183.9-106.17z"><animate attributeName="opacity" values="1;0;0" keyTimes="0;0.7;1" dur="1s" begin="0s" repeatCount="indefinite"></animate></path></g></svg>
+			<div id="output">
+				<p class="step">3. Pick a <span class="start strip">starting</span> and <span class="end strip">ending</span> bus stop from the map.</p>
+				<div id="map"></div>
+				<div id="result" style="display:none;">
+					<h2>Bus</h2>
+					<div id="result-inner"></div>
+					<div class="row"><label for="time-filter">Show trips for:</label><select id="time-filter"><option value="">All days</option><option value="week">Week days</option><option value="weekend">Saturdays and Sundays</option></select></div>
+					<div id="result-links"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="b5-bg padded tallpadded">
+		<div class="holder">
+			<h2 id="notes">Notes</h2>
+			<p>This is a prototype using the UK's Bus Open Data Service (BODS). BODS provides "real time" coordinates of buses. However, not all bus journeys get included (for reasons unknown to us) and sometimes the GPS readings can be infrequent. We've tried to find GPS coordinates near stops to work out the "real journey times". For stops without GPS readings nearby we've <a href="#interpolation">estimated times</a>.</p>
+			<p>The "real journey time" is the time from when the bus was supposed to set off to when it actually arrived. If the bus arrives late this won't be the same as the time spent on the bus.</p>
+			<h3>Graphs</h3>
+			<p>On the graphs we show all journeys both timetabled (blue) and actually measured (orange). We've joined the timetabled journey times with a solid line to make it easier to see how the timetabled journey time varies across a day. But the blue line makes it easier to compare the real times (orange points) against. The horizontal position gives the time the bus was at that stop (timetabled or real).</p>
+			<p>The real times will generally appear as a "cloud" of points. How spread out this cloud is at different times of the day gives an indication of how variable real journeys can be.</p>
+			<p>Hovering over a point will bring up more information about that specific journey including the timetabled and real durations as well as how late the bus actually was (a bus can be late but take the time it was scheduled to take).</p>
+			<h3 id="interpolation">Estimated times</h3>
+			<p>How frequently a bus reports its location in BODS varies. Sometimes they may not report a time at a particular bus stop. If there is no time at a particular stop but there are times for bus stops before and after, we will interpolate a time for the stop in question. To do this we use the timetable to work out the relative (in time) distances between the previous stop that we have a time for and the next stop that we have a time for. For instance, if the bus is supposed to be at the previous stop at 08:55, the current stop at 09:00 and the next stop at 09:10, we can see that the timetable expects it to take twice as long to get to the next stop as it did from the previous one and we can set the real time accordingly. Clearly this estimation doesn't take into account specific traffic conditions or points of congestion but it avoids us losing a lot of journeys that wouldn't be included otherwise because they would be missing a start or end time. Interpolated times are shown as slightly darker points and a note is given in the tooltips.</p>
+		</div>
+	</div>
+	<footer class="b1-bg">
+		<div class="holder">
+
+			<h2>Credits</h2>
+			<p>This tool was created by Stuart Lowe and Luke Strange (&copy; 2024 Open Innovations) using <a href="https://data.bus-data.dft.gov.uk/">bus open data</a> for timetables and live bus positions in September 2024. The <a href="https://www.legislation.gov.uk/uksi/2020/749/regulation/16/made">Public Service Vehicles (Open Data) (England) Regulations 2020</a> require us to state that:</p>
+			<ul>
+				<li>information has been taken from the bus open data digital service internet site</li>
+				<li>while the Secretary of State strives to preserve the integrity and quality of information on the bus open data digital service internet site, they cannot warrant the accuracy or quality of the information on the site</li>
+				<li>this site does not have the endorsement, affiliation, support or approval of the Secretary of State</li>
+			</ul>
+			<p>We use some other open source tools:</p>
+			<ul>
+				<li><a href="https://leafletjs.com/">Leaflet</a> (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade.</li>
+				<li><a href="https://slowe.github.io/TinyTypeAhead/">Tiny Type-ahead</a> (c) 2020-2024 Stuart Lowe.</li>
+			</ul>
+		</div>
+	</footer>
+<script>
+var bustimes,search;
+OI.ready(function(){
+
+	bustimes = new OI.bustimes({'map':document.getElementById('map'),'leaflet':{'script':'resources/leaflet.js','style':'resources/leaflet.css'}});
+
+	// Define a function for scoring how well a string matches
+	function getScore(str1,str2,v1,v2,v3,v4){
+		var r = 0;
+		str1 = str1.toUpperCase();
+		str2 = str2.toUpperCase();
+		if(str1.indexOf(str2)==0) r += (v1||3);
+		if(str1.indexOf(str2)>0) r += (v2||1);
+		if(str1==str2) r += (v3||4);
+		// Split search into words
+		words = str2.split(/\W/);
+		for(var w = 0; w < words.length; w++){
+			if(str1.match(words[w])){
+				if(str1.match(new RegExp("(^|\\W)"+words[w],"ig"))) r += (v4||(2/words.length));
+			}
+		}
+		return r;
+	}
+
+	// Build the barchart object attached to <input type="text" id="typeahead">
+	search = TypeAhead.init('#buses',{
+		'items': [],
+		'render': function(d){
+			// Construct the label shown in the drop down list
+			return d.d;
+		},
+		'setClass': function(d){
+			return d.valid ? '' : 'nodata';
+		},
+		'process': function(d){
+			// A service has been selected
+			document.getElementById('service').value = d.id;
+			setService();
+		},
+		'rank': function(d,str){
+			// Calculate the weight to add to this airport
+			var r = 0;
+			if(d.__label) r += getScore(d.__label,str);
+			if(d.d) r += getScore(d.d,str);
+			if(d.valid) r += 2;
+			if(r < 2.5) r = 0;
+			return r;
+		}
+	});
+
+	var cache = {},service,set_start,set_end,itl;
+
+	function loadITL(){
+		itl = document.getElementById('itl').value;
+		console.info('loadITL',itl);
+		var file = "data/index-"+itl+".json";
+		if(file && itl){
+			if(!cache[itl]){
+				cache[itl] = {'data':null};
+				search.clearItems();
+				fetch(file,{}).then(response => {
+					if(!response.ok) throw new Error('Network response was not OK');
+					return response.json();
+				}).then(json => {
+					json.forEach((r,i)=>{ r.file = 'data/'+itl+'/'+r.id+'.json'; });
+					cache[itl].data = json;
+					search.addItems(json);
+					//search.trigger('keyup');
+				}).catch(e => {
+					console.error('There has been a problem loading route data from '+file+'.');
+				});
+			}else{
+				if(cache[itl].data){
+					search.clearItems();
+					search.addItems(cache[itl].data);
+					//search.trigger('keyup');
+				}
+			}
+		}else{
+			search.clearItems();
+		}
+	}
+	
+	function setService(){
+		var id = document.getElementById('service').value;
+		var stop;
+		console.info('setService',id)
+		if(id){
+			bustimes.loadBus(itl,id,function(){
+				if(set_start){
+					stop = this.busstops.getStopByID(set_start);
+					if(stop) stop.toggleStart();
+				}
+				if(set_end){
+					stop = this.busstops.getStopByID(set_end);
+					if(stop) stop.toggleEnd();
+				}
+			});
+		}
+	}
+	if(location.search){
+		var str = location.search.substr(1,);
+		var kv = str.split(/\&/);
+		var m,i,k,v;
+		for(i = 0; i < kv.length; i++){
+			m = kv[i].match(/(^|\&)([^=]+)=(.*)/);
+			if(m){
+				if(m[2]=="start") set_start = m[3];
+				if(m[2]=="end") set_end = m[3];
+				if(m[2]=="itl") itl = m[3];
+				if(m[2]=="service") service = m[3];
+			}
+		}
+		if(service) document.getElementById('service').value = service;
+		if(itl) document.getElementById('itl').value = itl;
+	}
+	document.getElementById('itl').addEventListener('change',loadITL);
+	loadITL();
+
+	setService();
+});
+</script>
+
+</body>
+</html>
