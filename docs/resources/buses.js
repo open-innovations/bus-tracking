@@ -235,7 +235,8 @@
 		this.finishRoute = function(){
 			var html = '';
 			if(!this.selected.start || !this.selected.end){
-				document.getElementById('result-inner').innerHTML = '';
+				document.getElementById('result-head').innerHTML = '';
+				document.getElementById('result-graph').innerHTML = '';
 				document.getElementById('result').style.display = 'none';
 				return this;
 			}
@@ -245,12 +246,12 @@
 			html += '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" overflow="visible" viewBox="0 0 16 16" style="vertical-align:-.125em"><path d="M9 4.5l0 4l4 -1l-5 6l-5 -6l4 1l0 -4z" transform="rotate(-90,8,8)" /><title>to</title></svg>';
 			html += '<div class="end strip">'+this.selected.end.data.name+' [<a href="https://bustimes.org/stops/'+this.selected.end.id+'" target="bustimes" class="stopid">'+this.selected.end.id+'</a>]</div>';
 			html += '</div>';
-			html += '';
-			html += '<div class="legend"><div><span class="icon" style="background:'+seriesColours[0]+';"></span>Real journey time</div><div><span class="icon" style="background:'+seriesColours[1]+';"></span>Timetabled journey time</div></div>';
+			document.getElementById('result-head').innerHTML = html;
+			html = '<div class="legend"><div><span class="icon" style="background:'+seriesColours[0]+';"></span>Real journey time</div><div><span class="icon" style="background:'+seriesColours[1]+';"></span>Timetabled journey time</div></div>';
 			html += '<div id="chart" class="oi-viz oi-chart oi-chart-scatter"></div>';
+			document.getElementById('result-graph').innerHTML = html;
 
 			// Update page
-			document.getElementById('result-inner').innerHTML = html;
 			document.getElementById('result').style.display = (this.selected.start && this.selected.end) ? '':'none';
 
 			html = '';

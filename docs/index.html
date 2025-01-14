@@ -64,6 +64,7 @@
 	}
 	#result { padding: 1rem; margin-top: 2rem; }
 	#result ol { margin-left: 2rem; }
+	#result-filter { margin-top: 1rem; }
 	.row { display: flex; gap: 0.5rem; }
 	.row label { line-height: 2.5rem; }
 	.row + * { margin-top: 1rem; }
@@ -164,8 +165,10 @@
 				<div id="map"></div>
 				<div id="result" style="display:none;">
 					<h2>Bus</h2>
-					<div id="result-inner"></div>
-					<div class="row"><label for="time-filter">Show trips for:</label><select id="time-filter"><option value="">All days</option><option value="week">Week days</option><option value="weekend">Saturdays and Sundays</option></select></div>
+					<div id="result-head"></div>
+					<div id="result-filter" class="row"><label for="time-filter">Show trips for:</label><select id="time-filter"><option value="">All days</option><option value="week" selected="selected">Week days</option><option value="weekend">Saturdays and Sundays</option></select></div>
+					
+					<div id="result-graph"></div>
 					<div id="result-links"></div>
 				</div>
 			</div>
