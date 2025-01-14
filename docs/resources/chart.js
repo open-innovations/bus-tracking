@@ -260,7 +260,6 @@
 				}
 			}
 			if(idx >= 0) matches[idx].pt.tooltip.show();
-			else OI.Tooltips.clear();
 			return this;
 		};
 		addEv('mousemove',svg,{'this':this},this.findPoint);

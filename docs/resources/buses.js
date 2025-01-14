@@ -19,8 +19,6 @@
 		if(typeof opts.padding!=="number") opts.padding = 16;
 
 		var _obj = this;
-		var lat = 53.8217;
-		var lon = -1.6164;
 
 		this.selected = {'start':null,'end':null};
 		this.busstops = new BusStops(this);
@@ -55,7 +53,7 @@
 				this.busstops.setIcon('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor" overflow="visible" viewBox="0 0 16 16"><circle class="border" cx="8" cy="8" r="8" /><circle class="stop" cx="8" cy="8" r="8" /><path d="M9 4.5l0 4l4 -1l-5 6l-5 -6l4 1l0 -4z" fill="white"/></svg>');
 				// Create a map
 				this.map = new L.map(opts.map,{});
-				this.busstops.setMap(this.map)
+				this.busstops.setMap(this.map);
 				// Add a tile layer to the map
 				var base = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 					attribution: 'Tiles: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -84,23 +82,23 @@
 			}
 
 			this.json = json;
-			let dir,id,l,geojson,m;
+			let id,l,geojson,line,maxLat,maxLon,minLat,minLon;
 
 			// Build GeoJSON of route
 			geojson = {'type':'FeatureCollection','features':[]};
 			for(l in json.line){
 				line = json.line[l];
-				geojson.features.push({'type':'Feature','properties':{'id':l},'geometry':{'type':'LineString','coordinates':line}})
+				geojson.features.push({'type':'Feature','properties':{'id':l},'geometry':{'type':'LineString','coordinates':line}});
 			}
 
-			var service = (json.meta && json.meta['agency_name'] ? json.meta['name']+(json.meta['name'].match(json.meta['agency_name']) < 0 ? " ("+json.meta['agency_name']+")" : "") : "Unknown service");
+			var service = (json.meta && json.meta.agency_name ? json.meta.name+(json.meta.name.match(json.meta.agency_name) < 0 ? " ("+json.meta.agency_name+")" : "") : "Unknown service");
 			document.querySelector('#bus h2').innerHTML = service||"No service selected";
 
 			if(this.route) this.map.removeLayer(this.route);
 			
 			if(geojson.features.length != 0){
 				// If we have a GeoJSON route we add that to the map
-				this.route = L.geoJSON(geojson,{'style':function(){ return {'color':'black','opacity':0.5,'lineJoin':'round'}}});
+				this.route = L.geoJSON(geojson,{'style':function(){ return {'color':'black','opacity':0.5,'lineJoin':'round'}; }});
 				this.route.addTo(this.map);
 				// Fit the map bounds to the route
 				this.map.fitBounds(this.route.getBounds(),{'padding':[opts.padding,opts.padding]});
@@ -110,8 +108,8 @@
 				const lats = [];
 				const lons = [];
 				for(id in json.stops){
-					lats.push(parseFloat(json.stops[id]['lat']));
-					lons.push(parseFloat(json.stops[id]['lon']));
+					lats.push(parseFloat(json.stops[id].lat));
+					lons.push(parseFloat(json.stops[id].lon));
 				}
 				// Find min and max values of lat and lon
 				maxLat = Math.max(...lats);
@@ -194,7 +192,6 @@
 						valid.push(v);
 					}
 				}
-				let list = '';
 				valid = valid.sort(function(a,b){ return (a.s.hour > b.s.hour ? 1 : -1); });
 
 				// Get the distance between the two stops in km
@@ -210,8 +207,8 @@
 					if(speed <= 100 && speed >= 1){
 						let b = getMinutes(valid[t].e.timetable - valid[t].s.timetable);
 						let late = getMinutes(valid[t].e.timetable - valid[t].e.real);
-						let c = getMinutes(valid[t].e.real - valid[t].s.timetable);
-						let h = dt.getHours()+dt.getMinutes()/60;
+						//let c = getMinutes(valid[t].e.real - valid[t].s.timetable);
+						//let h = dt.getHours()+dt.getMinutes()/60;
 						let label = '<h3>'+dt.toLocaleDateString('en-GB',{weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})+'</h3>';
 						label += '<table><tr><th></th><th title="'+valid[t].s.stop_id+'">Start</th><th title="'+valid[t].e.stop_id+'">End</th><th>Duration</th></tr>';
 						label += '<tr class="timetable"><td>Timetable</td><td>'+niceTime(dt)+'</td><td>'+niceTime(new Date(valid[t].e.timetable*1000))+'</td><td><strong>'+b+'</strong> mins</td></tr>';
@@ -270,7 +267,7 @@
 			this.updateChart(document.getElementById('time-filter').value);
 
 			return this;
-		}
+		};
 
 		function earlyLate(d,early,late){
 			var v = (Math.abs(d) < 1) ? '<1' : Math.round(Math.abs(d))+'';
@@ -281,7 +278,7 @@
 	}
 	
 	function BusStops(_obj){
-		var map,layerControl;
+		var map;
 		this.parent = _obj;
 		var stops = {};
 		this.setMap = function(m){
@@ -290,7 +287,7 @@
 		};
 		this.setData = function(data){
 			// Add stops
-			for(id in data.stops) stops[id] = new BusStop(id,data,this);
+			for(var id in data.stops) stops[id] = new BusStop(id,data,this);
 			if(map) this.group.addTo(map);
 			return this;
 		};
@@ -421,7 +418,6 @@
 			return _parent.finishRoute();
 		};
 		this.toggleEnd = function(){
-			var active = {};
 			if(_parent.selected.end==this){
 				this.deselect();
 				_parent.selected.end = null;
@@ -484,6 +480,7 @@
 				div.appendChild(btn[1]);
 				popupEl.appendChild(div);
 			}
+      var li,id;
 			var nav = document.createElement('div');
 			nav.classList.add('stop-nav');
 			var ulprev = document.createElement('ul');
@@ -546,7 +543,6 @@
 		// Add methods to layer control class
 		L.Control.Layers.include({
 			getCheckedByLabel: function(name){
-				var inps = {};
 				for(var i = 0; i < this._layers.length; i++){
 					if(this._layers[i].name==name) return this._layerControlInputs[i].checked;
 				}
@@ -592,12 +588,7 @@
 			return this;
 		}
 		var w = 1080,h,aspect = w/h;
-		var pad = 4;
 		var fs = parseFloat(window.getComputedStyle(el, null).getPropertyValue('font-size'));
-		var xgrid = pad;
-		var ygrid = pad;
-		var wgrid = w-pad*2;
-		var hgrid = w-pad*2;
 		var boxplotspace = 20;
 		var boxplotwide = 30;
 		var svg = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="oi-chart-main" overflow="visible" style="max-width:100%;width:100%;" preserveAspectRatio="xMidYMin meet" data-type="scatter-chart" vector-effect="non-scaling-stroke"><g class="axis-grid axis-grid-x"></g><g class="axis-grid axis-grid-y"></g><g class="data-layer" role="table"></g></svg>';
@@ -643,7 +634,7 @@
 			this.axis.y.min = 0;
 			this.axis.y.max = 50;
 
-			var max = 0,i,s;
+			var max = 0,i,s,d;
 			var nice = {'spacing':10};
 			for(s = 0; s < this.data.series.length; s++){
 				if(this.data.series[s].marks && this.data.series[s].marks.length > 0){
@@ -668,7 +659,7 @@
 			for(i = this.axis.y.min; i <= this.axis.y.max; i+=nice.spacing) this.addAxisLine('y',i,i);
 
 			var nbox = 0;
-			for(var s = 0; s < this.data.series.length; s++){
+			for(s = 0; s < this.data.series.length; s++){
 				if("opts" in this.data.series[s] && typeof this.data.series[s].opts.boxplot==="number") nbox = Math.max(nbox,this.data.series[s].opts.boxplot);
 			}
 			// Padding on the right
@@ -682,7 +673,7 @@
 			this.updateAxis("x");
 			this.updateAxis("y");
 			
-			for(var s = 0; s < this.data.series.length; s++){
+			for(s = 0; s < this.data.series.length; s++){
 				this.updateSeries(s+1);
 			}
 
@@ -702,7 +693,6 @@
 			return this;
 		};
 		this.addAxis = function(t){
-			var x,y,tr,a,g,d;
 			// Add title
 			this.axis[t].title.el = this.axis[t].el.querySelector('.axis-grid-title');
 			if(!this.axis[t].title.el && this.axis[t].title.label){
@@ -719,20 +709,21 @@
 				x:this.axis.x.left + this.axis.x.wide*(x-this.axis.x.min)/(this.axis.x.max-this.axis.x.min),
 				y:this.axis.y.bottom - this.axis.y.tall*(y-this.axis.y.min)/(this.axis.y.max-this.axis.y.min)
 			};
-		}
+		};
 		this.updateAxis = function(t){
+      var x,y,a;
 			if(t=="x"){
 				x = this.axis.x.left + (this.axis.x.wide/2);
-				y = (h - this.axis.x.pad - fs/2)
+				y = (h - this.axis.x.pad - fs/2);
 				a = {x:x,y:y};
 			}else if(t=="y"){
 				x = this.axis.y.pad + (fs/2);
-				y = (this.axis.y.bottom - this.axis.y.tall/2)
+				y = (this.axis.y.bottom - this.axis.y.tall/2);
 				a = {x:x,y:y,transform:'rotate(-90,'+x+','+y+')','dy':this.axis.y.pad};
 			}
 			setAttr(this.axis[t].title.el,a);
 
-			var dx,dy,p = 0,prev = 0,newfs = fs;
+			var dx,i,tw,p = 0,prev = 0,newfs = fs;
 			// Remove existing line groups
 			this.axis[t].el.querySelectorAll('g').forEach((el)=>{el.remove();});
 			for(i = 0; i < this.axis[t].labels.length; i++){
@@ -746,8 +737,8 @@
 					setAttr(this.axis.x.labels[i].line,{'x1':0,'x2':0,'y1':0,'y2':-this.axis.y.tall});
 					tw = this.axis.x.labels[i].txt.getBoundingClientRect().width;
 					dx = (p.x-prev.x);
-					if(tw > dx*.9){
-						newfs = Math.min(newfs,fs*(dx*.9)/tw);
+					if(tw > dx*0.9){
+						newfs = Math.min(newfs,fs*(dx*0.9)/tw);
 					}
 				}else if(t=="y"){
 					setAttr(this.axis.y.labels[i].line,{'x1':0,'x2':this.axis.x.wide,'y1':0,'y2':0});
@@ -782,7 +773,7 @@
 			this.data.el.append(el);
 			setAttr(el,{'role':'row','data-series':s});
 			for(let i = 0; i < pts.length; i++){
-				var p = this.getXY(pts[i].x,pts[i].y);
+				//var p = this.getXY(pts[i].x,pts[i].y);
 				var mark = svgEl('circle');
 				mark.classList.add('marker');
 				setAttr(mark,{'cx':0,'cy':0,r:(opt.r||2.5),role:'cell',fill:(opt.fill||seriesColours[s-1]),'data-i':i,'data-series':s,'fill-opacity':(opt['fill-opacity']||1),'stroke-width':(opt['stroke-width']||0)});
@@ -804,7 +795,7 @@
 			return this;
 		};
 		this.updateSeries = function(s){
-			var d = "";
+			var d = "",i,qs,dx,x,txt;
 			for(let i = 0; i < this.data.series[s-1].marks.length; i++){
 				var p = this.getXY(this.data.series[s-1].marks[i].v.x,this.data.series[s-1].marks[i].v.y);
 				if(!isNaN(p.x) && !isNaN(p.y)){
@@ -823,17 +814,27 @@
 					this.data.series[s-1].stats = getBoxPlotStats(vals);
 				}
 				// Process quartile values into y positions
-				var qs = this.data.series[s-1].stats.quartiles.slice();
-				for(let i = 0; i < qs.length; i++) qs[i] = {p:this.getXY(0,qs[i]),v:qs[i]};
+				qs = this.data.series[s-1].stats.quartiles.slice();
+				for(i = 0; i < qs.length; i++) qs[i] = {p:this.getXY(0,qs[i]),v:qs[i]};
 				// Create path
-				let dx = Math.round(boxplotwide/2);
-				let x = this.axis.x.left + this.axis.x.wide + ((boxplotspace+boxplotwide)*this.data.series[s-1].opts.boxplot - boxplotwide/2);
+				dx = Math.round(boxplotwide/2);
+				x = this.axis.x.left + this.axis.x.wide + ((boxplotspace+boxplotwide)*this.data.series[s-1].opts.boxplot - boxplotwide/2);
 				d = "M"+(x-dx)+" "+qs[0].p.y+"l"+(dx*2)+" 0M"+x+" "+qs[0].p.y+"L"+(x)+" "+(qs[1].p.y);
 				d += "M"+(x-dx)+" "+qs[1].p.y+"l0 "+(qs[2].p.y-qs[1].p.y)+'l'+(dx*2)+" 0l0 "+(qs[1].p.y-qs[2].p.y)+'l-'+(dx*2)+' 0';
 				d += "M"+(x-dx)+" "+qs[2].p.y+"l0 "+(qs[3].p.y-qs[2].p.y)+'l'+(dx*2)+" 0l0 "+(qs[2].p.y-qs[3].p.y)+'l-'+(dx*2)+' 0';
 				d += "M"+(x)+" "+qs[3].p.y+"l0 "+(qs[4].p.y-qs[3].p.y)+"m"+(-dx)+" 0l"+(2*dx)+" 0";
 				setAttr(this.data.series[s-1].boxplot.querySelector('path'),{'d':d,'stroke':'black','fill':this.data.series[s-1].opts.fill||seriesColours[s-1]});
-				this.data.series[s-1].boxplot.querySelector('title').innerHTML = 'Min: '+this.data.series[s-1].stats.min.toFixed(1)+' mins\n1st quartile: '+qs[1].v.toFixed(1)+' mins\nMedian: '+this.data.series[s-1].stats.median.toFixed(1)+' mins\n3rd quartile: '+qs[3].v.toFixed(1)+' mins\nMax: '+this.data.series[s-1].stats.max.toFixed(1)+' mins';
+				txt = "<h3>Distribution</h3><table><tr>";
+				txt += '<tr><td>Max</td><td><strong>'+this.data.series[s-1].stats.max.toFixed(1)+'</strong> mins</td></tr>';
+				txt += '<tr><td>3rd quartile</td><td><strong>'+qs[3].v.toFixed(1)+'</strong> mins</td></tr>';
+				txt += '<tr><td>Median</td><td><strong>'+this.data.series[s-1].stats.median.toFixed(1)+'</strong> mins</td></tr>';
+				txt += '<tr><td>1st quartile</td><td><strong>'+qs[1].v.toFixed(1)+'</strong> mins</td></tr>';
+				txt += '<tr><td>Min</td><td><strong>'+this.data.series[s-1].stats.min.toFixed(1)+'</strong> mins</td></tr>';
+				txt += '</table>';
+
+				this.data.series[s-1].boxplot.querySelector('title').innerHTML = txt;
+				this.data.series[s-1].boxplot.querySelector('path').classList.add('marker');
+				OI.Tooltips.add(this.data.series[s-1].boxplot.querySelector('path'));
 			}
 			return this;
 		};
@@ -855,19 +856,9 @@
 		for(var p in prop) el.setAttribute(p,prop[p]);
 		return el;
 	}
-	function appendHTML(el,html){
-		if(html){
-			var d = document.createElement('template');
-			d.innerHTML = html;
-			var c = (typeof d.content==="undefined" ? d : d.content);
-			if(c.childNodes.length > 0) while(c.childNodes.length > 0) el.appendChild(c.childNodes[0]);
-			else el.append(html);
-		}
-		return el;
-	}
 	function niceRange(mn,mx,n){
 
-		var dv,log10_dv,base,frac,options,distance,imin,tmin,i,dv;
+		var dv,log10_dv,base,frac,options,distance,imin,tmin,i;
 
 		// Start off by finding the exact spacing
 		dv = (mx-mn)/n;
