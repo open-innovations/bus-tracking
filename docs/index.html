@@ -186,8 +186,42 @@
 			<p>Hovering over a point will bring up more information about that specific journey including the timetabled and real durations as well as how late the bus actually was (a bus can be late but take the time it was scheduled to take).</p>
 			<h3 id="interpolation">Estimated times</h3>
 			<p>How frequently a bus reports its location in BODS varies. Sometimes they may not report a time at a particular bus stop. If there is no time at a particular stop but there are times for bus stops before and after, we will interpolate a time for the stop in question. To do this we use the timetable to work out the relative (in time) distances between the previous stop that we have a time for and the next stop that we have a time for. For instance, if the bus is supposed to be at the previous stop at 08:55, the current stop at 09:00 and the next stop at 09:10, we can see that the timetable expects it to take twice as long to get to the next stop as it did from the previous one and we can set the real time accordingly. Clearly this estimation doesn't take into account specific traffic conditions or points of congestion but it avoids us losing a lot of journeys that wouldn't be included otherwise because they would be missing a start or end time. Interpolated times are shown as slightly darker points and a note is given in the tooltips.</p>
+			
+			<h3 id="faq">Questions you may have</h3>
+			
+			<h4>Who are you? Are you in charge of buses?</h4>
+			<p>We aren't in charge of buses. We are Open Innovations - a small, not-for-profit based in Yorkshire. We aren't the Department for Transport, a local transit authority, or a bus company. But we do have an interest in buses being better. We feel that slow bus journeys <a href="https://www.tomforth.co.uk/birminghamisasmallcity/">shrinks the effective size of our cities</a> (outside of London) and reduces their potential.</p>
+
+			<h4>Why does the route line not follow the road (or the stops)?</h4>
+			<p>The lines that make the routes come from the timetable files that were provided by BODS. These are, ultimately, created by the transport people in that particular area. They may not have provided enough (or up-to-date) detail to draw the route fully which can result in lines that don't follow the roads e.g. the middle part of the route of the <a href="https://open-innovations.github.io/bus-tracking/?itl=TLE&service=x70-harrogate-tadcaster&start=3200YND10690&end=450014896">X70 between Harrogate and Wetherby</a>.</p>
+
+			<h4>Why are the bus stops out-of-date?</h4>
+			<p>We collected the data for this project in September 2024. All the stop locations and names come from the BODS data. If the local transport teams provided incorrect, out-of-date, or incomplete data to BODS, we will also be wrong.</p>
+			
+			<h4>Where do the bus route names come from?</h4>
+			<p>Whilst exploring the data in BODS we weren't always able to create the best route names to help distinguish similar sounding ones. We also needed unique IDs for routes (across all of England) so that we could build this tool. In the end, we copied the route names and IDs used by the excellent <a href="https://bustimes.org/">bustimes.org</a>.</p>
+			
+			<h4>What are the points on the graph?</h4>
+			<p>The points on the graph show the timetabled (blue) and real (orange) journey times for given starting times during a day. We are showing all the journeys we found from across a 10-day period (rather than just trend lines) so that we can fully explore all the data. The blue and orange points are in pairs, and highlighting one of a pair will also highlight the other.</p>
+			<p>The blue and orange points will be lined up horizontally if the bus is at the first stop at the time it is scheduled to be. If a particular bus takes longer than the timetable, the orange point of a pair will be higher than the blue one. The overall vertical position of the orange points compared to the blue line will give you an idea of how much slower the bus can be in real life.</p>
+
+			<h4>Is the blue line in the graph a trend line?</h4>
+			<p>No. It is just a line that joins the blue dots together. During testing, we found that it helped to show the timetable points as a line because it made it easier to compare than when it was just two "clouds" of points.</p>
+
+			<h4>What are the boxes to the right of the graph?</h4>
+			<p>These are "box and whisker" plots showing the distribution of the timetable and real points. These give the minimum and maximum, the median (middle value) as well as the first quartile (a quarter of points are less than this) and third quartiles (a quarter of points are above this). They are there for those who are interested in statistics but they may not always be helpful if a bus route is scheduled to take very different times at different points in a day.</p>
+
+			<h4>Why does the timetabled journey time vary?</h4>
+			<p>The timetables are set by local transport people, not us. And there can be many reasons. Local planners will, in many places, adjust the timetable to the amount of congestion they expect. That can mean that buses are scheduled to run faster on weekends than weekdays. It can mean that buses are expected to be slower at peak times. It may be that different timetable decisions have been taken for different week days. There will also be other situations that we aren't aware of.</p>
+
+			<h4>Why aren't there many points for my selected journey?</h4>
+			<p>It could be that that bus doesn't run very often. It may also be that we didn't get many GPS measurements from BODS for that particular bus route or section of the route. We aren't sure exactly why some buses don't report many points to BODS but suspect it could be: drivers not inputting correct data on the bus; failures of buses to transmit data; data not being received by the systems that feed into BODS; BODS not including the most recent data from every bus in every update (we only sampled data every minute rather than every 10 seconds).</p>
+
+			<h4>Why do some stops disappear after I pick a start/end stop?</h4>
+			<p>When you select a starting stop, the tool will hide any stops that are in the wrong direction of travel (usually on the other side of the road). The tool will also hide any earlier stops in that route. If you are expecting to see stops in a location but can’t see any, it may be that you have selected a starting stop heading in the opposite direction of travel to the one you intended. You can bring all the stops back by un-selecting stops. The same logic applies when choosing an end stop.</p>
 		</div>
 	</div>
+	
 	<footer class="b1-bg">
 		<div class="holder">
 

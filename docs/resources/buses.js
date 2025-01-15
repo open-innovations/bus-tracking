@@ -825,7 +825,7 @@
 				d += "M"+(x-dx)+" "+qs[2].p.y+"l0 "+(qs[3].p.y-qs[2].p.y)+'l'+(dx*2)+" 0l0 "+(qs[2].p.y-qs[3].p.y)+'l-'+(dx*2)+' 0';
 				d += "M"+(x)+" "+qs[3].p.y+"l0 "+(qs[4].p.y-qs[3].p.y)+"m"+(-dx)+" 0l"+(2*dx)+" 0";
 				setAttr(this.data.series[s-1].boxplot.querySelector('path'),{'d':d,'stroke':'black','fill':this.data.series[s-1].opts.fill||seriesColours[s-1]});
-				txt = "<h3>Distribution</h3><table><tr>";
+				txt = "<h3>"+(s-1==0 ? "Real-time":"Timetable")+" statistics</h3><table><tr>";
 				txt += '<tr><td>Max</td><td><strong>'+this.data.series[s-1].stats.max.toFixed(1)+'</strong> mins</td></tr>';
 				txt += '<tr><td>3rd quartile</td><td><strong>'+qs[3].v.toFixed(1)+'</strong> mins</td></tr>';
 				txt += '<tr><td>Median</td><td><strong>'+this.data.series[s-1].stats.median.toFixed(1)+'</strong> mins</td></tr>';
@@ -905,6 +905,7 @@
 		else return arr[b];
 	}
 	function getBoxPlotStats(arr){
+		if(typeof arr!=="object" || arr.length==0) return {'median':0,'max':0,'min':0,'quartiles':[0,0,0,0,0]};
 		arr = [...arr].sort((a, b) => a - b); // Avoid mutating original array
 		return {'median':getQuartile(arr,50),'max':arr[arr.length-1],'min':arr[0],'quartiles':[arr[0],getQuartile(arr,25),getQuartile(arr,50),getQuartile(arr,75),arr[arr.length-1]]};
 	}
