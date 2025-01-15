@@ -225,10 +225,24 @@
 				}
 			}
 			document.getElementById('chart').innerHTML = '';
-			this.chart = new SimpleChart(document.getElementById('chart'),{'seriesColours':seriesColours,});
+			this.chart = new SimpleChart(document.getElementById('chart'),{'seriesColours':seriesColours});
 			this.chart.addSeries(data.real,{r:3,boxplot:1});
-			this.chart.addSeries(data.timetable,{r:3,line:{'stroke-width':'2','stroke':seriesColours[1]},boxplot:2});
+			this.chart.addSeries(data.timetable,{r:1.6,line:{'stroke-width':'2','stroke':seriesColours[1]},boxplot:2});
 			this.chart.updateSizes();
+
+			// Update legend
+			console.log('legend',this.legend,this.chart,document.querySelector('.legend'));
+			var series = this.legend.querySelectorAll('.series');
+			for(let s = 0; s < series.length; s++){
+				if(this.chart.data.series[s].marks && this.chart.data.series[s].marks.length > 0){
+					let mark = this.chart.data.series[s].marks[0].mark.cloneNode(true);
+					mark.removeAttribute('transform');
+					series[s].querySelector('.icon').innerHTML = '<svg width="1em" height="1em"></svg>';
+					series[s].querySelector('svg').appendChild(mark);
+					console.log(s,series[s],this.chart.data.series[s].marks[0].mark.cloneNode(true));
+				}
+			}
+
 
 			return this;
 		};
@@ -247,9 +261,10 @@
 			html += '<div class="end strip">'+this.selected.end.data.name+' [<a href="https://bustimes.org/stops/'+this.selected.end.id+'" target="bustimes" class="stopid">'+this.selected.end.id+'</a>]</div>';
 			html += '</div>';
 			document.getElementById('result-head').innerHTML = html;
-			html = '<div class="legend"><div><span class="icon" style="background:'+seriesColours[0]+';"></span>Real journey time</div><div><span class="icon" style="background:'+seriesColours[1]+';"></span>Timetabled journey time</div></div>';
+			html = '<div class="legend"><div class="series" data-series="0"><svg width="1em" height="1em" viewBox="-8 -8 16 16" class="icon"></svg><span>Real journey time</span></div><div class="series" data-series="1"><svg width="1em" height="1em" viewBox="-8 -8 16 16" class="icon"></svg><span>Timetabled journey time</span></div></div>';
 			html += '<div id="chart" class="oi-viz oi-chart oi-chart-scatter"></div>';
 			document.getElementById('result-graph').innerHTML = html;
+			this.legend = document.getElementById('result-graph').querySelector('.legend');
 
 			// Update page
 			document.getElementById('result').style.display = (this.selected.start && this.selected.end) ? '':'none';
@@ -712,7 +727,7 @@
 			};
 		};
 		this.updateAxis = function(t){
-      var x,y,a;
+			var x,y,a;
 			if(t=="x"){
 				x = this.axis.x.left + (this.axis.x.wide/2);
 				y = (h - this.axis.x.pad - fs/2);
@@ -774,7 +789,6 @@
 			this.data.el.append(el);
 			setAttr(el,{'role':'row','data-series':s});
 			for(let i = 0; i < pts.length; i++){
-				//var p = this.getXY(pts[i].x,pts[i].y);
 				var mark = svgEl('circle');
 				mark.classList.add('marker');
 				setAttr(mark,{'cx':0,'cy':0,r:(opt.r||2.5),role:'cell',fill:(opt.fill||seriesColours[s-1]),'data-i':i,'data-series':s,'fill-opacity':(opt['fill-opacity']||1),'stroke-width':(opt['stroke-width']||0)});
