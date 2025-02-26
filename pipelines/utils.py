@@ -87,52 +87,41 @@ def load_gtfs_ids(gtfs_path):
 
 # ------ #
 
-def load_full_gtfs(path, include=None):
+def load_gtfs(fpath, files=None):
     """
-    Read GTFS files from path (can be either a zip file or directory containing the individual files) and get the required components. Additionally, read any optional files specified in `include`.
+    Load specified files from a GTFS .zip file.
 
     Parameters
     ----------
-    dir: str
-        Directory of the GTFS unzipped files.
-    
-    include: list(str)
-        Optional filenames to include that are not required by GTFS but are optionally included.
+        fpath (str): Path to the GTFS .zip file.
+        files (list): List of file names to load. If None, loads all files in the archive.
 
     Returns
     -------
-    result: list(pandas.DataFrame)
-        A list of pandas dataframes containing the loaded data files. Order is the same as required files, then include.
+        list: A list of pandas DataFrames corresponding to the specified files.
     """
-    # Required by GTFS
-    required_files = ['agency.txt', 'routes.txt', 'trips.txt', 'stops.txt', 'stop_times.txt', 'calendar.txt', 'calendar_dates.txt']
+    if not str(fpath).endswith('.zip'):
+        raise ValueError('The provided file is not a .zip file')
 
-    # Add extra files to read
-    if include:
-        for file in include:
-            required_files.append(file)
-    
-    result = []
+    with zipfile.ZipFile(fpath, 'r') as z:
+        # Get the list of files in the archive
+        available_files = z.namelist()
+        print(available_files)
+        # If no files are specified, load all files
+        if files is None:
+            files = available_files
+        else:
+            # Validate that all specified files exist in the archive
+            missing_files = [file for file in files if file not in available_files]
+            if missing_files:
+                raise FileNotFoundError(f"The following files are missing in the archive: {missing_files}")
 
-    if path.suffix == '.zip':
-        print(f'File "{path}" is a zip file. Unzipping and reading...')
-         # Open the zip file
-        with zipfile.ZipFile(path, 'r') as z:
-            # Read the files
-            for file in required_files:
-                if file in z.namelist():  # Check if file exists in the zip
-                    with z.open(file) as f:
-                        data = pd.read_csv(TextIOWrapper(f, 'utf-8'), low_memory=False)
-                        result.append(data)
-    else:
-        assert os.path.isdir(path), f"{path} is not a directory."
-        print("Reading GTFS files...")
-        # Read the files
-        for file in required_files:
-            fp = os.path.join(path, file)
-            data = pd.read_csv(fp, low_memory=False)
-            result.append(data)
-    
+        # Load the specified files into DataFrames
+        result = [
+            pd.read_csv(TextIOWrapper(z.open(file), 'utf-8'), low_memory=False)
+            for file in files
+        ]
+
     return result
 
 # ------ #
