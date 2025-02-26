@@ -7,7 +7,8 @@
     "build": "deno task lume",
     "serve": "deno task lume -s",
     "build:dev": "deno task build --location https://dev.open-innovations.org/lcrca-bus-tracking/",
-    "sync:dev": "rsync --info=STATS2 --recursive --delete --rsh=\"sshpass -e ssh -o StrictHostKeyChecking=no -l $SSH_USER\" --rsync-path \"sudo -u www-data rsync\" _site/ $SSH_HOST:$SSH_PATH"
+    "sync:dev": "rsync --info=STATS2 --recursive --delete --rsh=\"sshpass -e ssh -o StrictHostKeyChecking=no -l $SSH_USER\" --rsync-path \"sudo -u oi-cloud rsync\" _site/ $SSH_HOST:$SSH_PATH",
+    "deploy:dev": "deno task build:dev && deno task sync:dev"
   },
   "compilerOptions": {
     "types": [
