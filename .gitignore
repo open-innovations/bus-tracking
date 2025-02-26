@@ -3,6 +3,7 @@
 data/debugging
 data/geojson
 data/gtfs
+data/isochrones
 data/gtfs-rt
 data/sirivm
 data/gtfsrt_20241127
