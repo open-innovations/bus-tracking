@@ -14,7 +14,7 @@ import csvLoader from "https://deno.land/x/oi_lume_utils@v0.4.0/loaders/csv-load
 
 const site = lume({
     src: './src',
-    location: new URL("https://open-innovations.github.io/bus-tracking")
+    location: new URL("https://dev.open-innovations.org/lcrca-bus-tracking/")
 });
 
 site.process([".html"], (pages) => pages.forEach(autoDependency));
@@ -40,7 +40,7 @@ site.loadData([".hexjson", ".json", ".geojson"], json);
 site.loadData([".csv"], csvLoader({ basic: true }));
 
 // site.copy('.nojekyll');
-site.copy('/assets/vendor');
+site.copy('/assets/vendor/');
 
 
 export default site;
